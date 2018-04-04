@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+Received data from SW: <p id="data">not yet</p>
+<input id="finish" type="button" value="Finish">
+<script>
+
+document.getElementById('finish').addEventListener('click', e => {
+  // Send payment result to SW
+  navigator.serviceWorker.controller.postMessage({
+    methodName: 'https://romandev.github.io',
+    details: {
+      token: '1234567890'
+    }
+  });
+  window.close();
+});
+
+/*navigator.serviceWorker.onmessage = (e) => {
+  console.log(e);
+  document.getElementById('data').innerHTML = e.data;
+};*/
+
+//console.log('test');
+
+navigator.serviceWorker.addEventListener('message', e => {
+  document.getElementById('data').innerHTML = e.data;
+});
+
+// Send ready message to SW
+//navigator.serviceWorker.controller.postMessage('ready_to_receive_message');
+
+</script>
+</body>
+</html>
